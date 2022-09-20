@@ -17,7 +17,8 @@
     "content_scripts": [
         {
           "matches": ["*://*.ssp.df.gov.br/teleatendimentocbmdf/novochamadocbmdf*"],
-          "js": ["js/consulta_ocorrencias.js"]
+          "js": ["js/consulta_ocorrencias.js"],
+          "css": ["css/consulta_ocorrencias.css"]
         }
     ]
 }

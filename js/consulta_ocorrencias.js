@@ -26,16 +26,39 @@ const consultaOcorrenciasPorEndereco = endereco => {
                         ocorrencias.push(preparaOcorrencia(linhas[i]));
                     }
                 }
+                resolve(ocorrencias);
             });
-            resolve(ocorrencias);
         });
     }).catch(error => {
         console.log(error);
     });
 };
 
+const preparaHTMLEnderecos = ocorrencias => {
+    let enderecosHTML = "<div id=\"enderecos_semelhantes\">";
+
+    ocorrencias.forEach(ocorrencia => {
+        enderecosHTML += "<p>" + ocorrencia[0] + " | " + ocorrencia[1] + "</p>";
+    });
+
+    return enderecosHTML + "</div>";
+}
+
+const limpaEnderecos = () => {
+    const divEnderecos = document.getElementById("enderecos_semelhantes");
+    
+    if(divEnderecos) {
+        divEnderecos.remove();
+    }
+}
+
 const exibeOcorrencias = ocorrencias => {
-    console.log(ocorrencias);
+    limpaEnderecos();
+
+    const htmlEnderecos = preparaHTMLEnderecos(ocorrencias);
+    const sectionEndereco = document.getElementsByClassName("divPrioridade")[1].getElementsByTagName("section")[3];
+
+    sectionEndereco.insertAdjacentHTML("afterend", htmlEnderecos);
 }
 
 document.getElementById("DSC_ENDERECO").addEventListener('input', event => {
@@ -48,4 +71,6 @@ document.getElementById("DSC_ENDERECO").addEventListener('input', event => {
             console.log(e);
         });
     }
+
+    limpaEnderecos();
 });
