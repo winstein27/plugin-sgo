@@ -5,15 +5,16 @@ const preparaOcorrencia = linha => {
     return [natureza, endereco];
 };
 
-const consultaOcorrenciasPorEndereco = async endereco => {
+const consultaOcorrenciasPorEndereco = endereco => {
     const url = "/teleatendimentocbmdf/emandamento";
     
-    fetch(url).then(function(response) {
-        return new Promise(resolve => {
-            const ocorrencias = [];
-    
+    return new Promise(resolve => {
+        const ocorrencias = [];
+
+        fetch(url).then(response => {
             const paginaRetornada = document.createElement('html');
-            response.text().then(function(data) {
+
+            response.text().then(data => {
                 paginaRetornada.innerHTML = data;
     
                 const tabela = paginaRetornada.getElementsByTagName("tbody")[0];
@@ -25,10 +26,10 @@ const consultaOcorrenciasPorEndereco = async endereco => {
                         ocorrencias.push(preparaOcorrencia(linhas[i]));
                     }
                 }
-                resolve(ocorrencias);
             });
+            resolve(ocorrencias);
         });
-    }).catch(function(error) {
+    }).catch(error => {
         console.log(error);
     });
 };
@@ -37,13 +38,14 @@ const exibeOcorrencias = ocorrencias => {
     console.log(ocorrencias);
 }
 
-document.getElementById("DSC_ENDERECO").addEventListener('input', function(event) {
+document.getElementById("DSC_ENDERECO").addEventListener('input', event => {
     const endereco = event.target.value;
 
     if(Number.parseInt(endereco.length) >= 3) {
         consultaOcorrenciasPorEndereco(endereco).then(ocorrencias => {
-            console.log("xd!");
             exibeOcorrencias(ocorrencias);
+        }).catch(e => {
+            console.log(e);
         });
     }
 });
