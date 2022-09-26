@@ -1,3 +1,11 @@
+/*
+
+Ao cadastrar um ocorrência, consulta os endereços das ocorrências em andamento
+para que o usuário não crie uma nova ocorrência com o mesmo endereço de uma já
+cadastrada.
+
+*/
+
 const preparaOcorrencia = linha => {
     const natureza = linha.cells[1].innerText.replace("\n", "").trim();
     const endereco = linha.cells[2].innerText.replace("\n", "").trim();

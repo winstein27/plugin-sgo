@@ -1,0 +1,10 @@
+#ocorrenciaSemDespacho {
+    background-color: #D72638;
+    border: 2px solid #96031A;
+    border-radius: 5px;
+    padding: 3px;
+    color: #FBFFFE;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+}
