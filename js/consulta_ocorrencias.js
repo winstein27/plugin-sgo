@@ -43,13 +43,13 @@ const consultaOcorrenciasPorEndereco = endereco => {
 };
 
 const preparaHTMLEnderecos = ocorrencias => {
-    let enderecosHTML = "<div id=\"enderecos_semelhantes\">";
+    let enderecosHTML = `<table id=\"enderecos_semelhantes\"><thead><tr><th colspan="2">Ocorrêncios com Endereços Semelhantes</th></tr></thead><tbody>`;
 
     ocorrencias.forEach(ocorrencia => {
-        enderecosHTML += "<p>" + ocorrencia[0] + " | " + ocorrencia[1] + "</p>";
+        enderecosHTML += "<tr><td>" + ocorrencia[0] + "</td><td> " + ocorrencia[1] + "</td></tr>";
     });
 
-    return enderecosHTML + "</div>";
+    return enderecosHTML + "</tbody></table>";
 }
 
 const limpaEnderecos = () => {
@@ -65,13 +65,13 @@ const exibeOcorrencias = ocorrencias => {
 
     const htmlEnderecos = preparaHTMLEnderecos(ocorrencias);
     const sectionEndereco = document.getElementsByClassName("divPrioridade")[1].getElementsByTagName("section")[3];
-
+    
     sectionEndereco.insertAdjacentHTML("afterend", htmlEnderecos);
 }
 
 document.getElementById("DSC_ENDERECO").addEventListener('input', event => {
     const endereco = event.target.value;
-
+    
     if(Number.parseInt(endereco.length) >= 3) {
         consultaOcorrenciasPorEndereco(endereco).then(ocorrencias => {
             exibeOcorrencias(ocorrencias);

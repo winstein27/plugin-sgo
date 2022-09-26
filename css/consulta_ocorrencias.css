@@ -2,8 +2,19 @@
     background-color: #fff2f2;
     border: 1px solid #cccccc;
     color: #666666;
+    width: 100%;
 }
 
-#enderecos_semelhantes p {
+#enderecos_semelhantes th {
     padding: 5px;
+    text-align: center;
+    background-color: #fff2f2;
+}
+
+#enderecos_semelhantes td {
+    padding: 5px;
+}
+
+#enderecos_semelhantes tr:nth-child(odd) {
+    background:white;
 }
