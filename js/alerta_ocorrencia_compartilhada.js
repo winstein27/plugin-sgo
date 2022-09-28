@@ -7,7 +7,7 @@ tenham desfecho pela mesa da COCB.
 */
 
 const reposicionaEDestacaOcorrencia = (tabelaOcorrencias, linha) => {
-    const mensagem = `<p id="ocorrenciaSemDespacho">Ocorrência sem despacho.<br>DESPACHAR IMEDIATAMENTE!</p>`
+    const mensagem = `<p id="ocorrenciaDestacada">Ocorrência sem tratamento pelo CBMDF.</p>`
     const itemTablela = linha.getElementsByTagName("td")[0];
     
     itemTablela.insertAdjacentHTML("beforeend", mensagem);
