@@ -5,7 +5,7 @@
     "description": "Extensão Interna da Central de Operações e Comunicações do CBMDF para interagir com o Sistema SGO",
     "version": "1.0.0",
 
-    "permissions": ["activeTab"],
+    "permissions": [],
 
     "icons": {
         "16": "/images/icons/cbmdf16.png",
