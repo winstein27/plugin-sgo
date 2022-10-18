@@ -3,7 +3,7 @@
 
     "name": "SGO-CBMDF",
     "description": "Extensão Interna da Central de Operações e Comunicações do CBMDF para interagir com o Sistema SGO",
-    "version": "1.0.0",
+    "version": "1.0.1",
 
     "permissions": [],
 

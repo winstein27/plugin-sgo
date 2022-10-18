@@ -13,8 +13,19 @@ const preparaOcorrencia = linha => {
     return [natureza, endereco];
 };
 
-const consultaOcorrenciasPorEndereco = endereco => {
-    const url = "/teleatendimentocbmdf/emandamento";
+// Ocorrência é recente se foi registrada há, no máximo, 2 horas
+const ocorrenciaERecente = dataOcorrencia => {
+    const ano = "20" + dataOcorrencia.slice(6, 8);
+    const mes = dataOcorrencia.slice(3, 5);
+    const dia = dataOcorrencia.slice(0, 2);
+    const hora = dataOcorrencia.slice(9, 11);
+    const minuto = dataOcorrencia.slice(12, 14);
+    
+    return ((new Date() - new Date(ano, mes-1, dia, hora, minuto)) / (1000*60*60) <= 2);
+};
+
+const getOcorrenciasPorEndereco = endereco => {
+    const url = "https://sgo.ssp.df.gov.br/atendimento/emandamento?filtroCodAgencia=2";
     
     return new Promise(resolve => {
         const ocorrencias = [];
@@ -30,7 +41,9 @@ const consultaOcorrenciasPorEndereco = endereco => {
     
                 for(let i=0; i<linhas.length; i++) {
                     const enderecoCadastrado = linhas[i].cells[2].innerText.split("/")[0];
-                    if(enderecoCadastrado.toLowerCase().includes(endereco.toLowerCase())) {
+                    const dataOcorrencia = linhas[i].cells[0].innerText.split("\n")[5].trim();
+
+                    if(ocorrenciaERecente(dataOcorrencia) && enderecoCadastrado.toLowerCase().includes(endereco.toLowerCase())) {
                         ocorrencias.push(preparaOcorrencia(linhas[i]));
                     }
                 }
@@ -63,17 +76,19 @@ const limpaEnderecos = () => {
 const exibeOcorrencias = ocorrencias => {
     limpaEnderecos();
 
-    const htmlEnderecos = preparaHTMLEnderecos(ocorrencias);
-    const sectionEndereco = document.getElementsByClassName("divPrioridade")[1].getElementsByTagName("section")[3];
-    
-    sectionEndereco.insertAdjacentHTML("afterend", htmlEnderecos);
+    if(ocorrencias.length) {
+        const htmlEnderecos = preparaHTMLEnderecos(ocorrencias);
+        const sectionEndereco = document.getElementsByClassName("divPrioridade")[1].getElementsByTagName("section")[3];
+        
+        sectionEndereco.insertAdjacentHTML("afterend", htmlEnderecos);
+    }
 }
 
 document.getElementById("DSC_ENDERECO").addEventListener('input', event => {
     const endereco = event.target.value;
     
     if(Number.parseInt(endereco.length) >= 3) {
-        consultaOcorrenciasPorEndereco(endereco).then(ocorrencias => {
+        getOcorrenciasPorEndereco(endereco).then(ocorrencias => {
             exibeOcorrencias(ocorrencias);
         }).catch(e => {
             console.log(e);
